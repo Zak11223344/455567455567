@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<link rel="stylesheet" href="style.css"
+    <meta charset="UTF-8">
+    <title>Опрос: обратная связь о кружке</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        /* Стили для слайдов */
+        .slide {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn-prev {
+            flex: 1;
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .btn-prev:hover {
+            background-color: #d0d0d0;
+        }
+        #message {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 6px;
+            text-align: center;
+            display: none;
+        }
+        .step-indicator {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #888;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Опрос для участников кружка</h2>
+
+    <!-- Индикатор шагов -->
+    <div class="step-indicator">
+        Шаг <span id="currentStep">1</span> из 5
+    </div>
+
+    <form id="contactForm">
+        <!-- Слайд 1: базовая информация -->
+        <div id="slide1" class="slide active">
+            <div class="form-group">
+                <label for="fullname">Ваше имя и фамилия</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Иван Иванов" required>
+            </div>
+            <div class="form-group">
+                <label for="age">Ваш возраст</label>
+                <input type="number" id="age" name="age" placeholder="12" required min="7" max="18">
+            </div>
+        </div>
+
+        <!-- Слайд 2: удовлетворённость занятиями -->
+        <div id="slide2" class="slide">
+            <div class="form-group">
+                <label>Насколько вы довольны занятиями в кружке?</label>
+                <select id="satisfaction" name="satisfaction" required>
+                    <option value="" disabled selected>Выберите уровень</option>
+                    <option value="очень доволен">Очень доволен</option>
+                    <option value="доволен">Доволен</option>
+                    <option value="нейтрально">Нейтрально</option>
+                    <option value="недоволен">Недоволен</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="best_part">Что вам нравится больше всего?</label>
+                <textarea id="best_part" name="best_part" placeholder="Например, интересные задания, дружелюбная атмосфера..." rows="4"></textarea>
+            </div>
+        </div>
+
+        <!-- Слайд 3: предложения по улучшению -->
+        <div id="slide3" class="slide">
+            <div class="form-group">
+                <label for="improvements">Что можно улучшить?</label>
+                <textarea id="improvements" name="improvements" placeholder="Любые идеи и предложения..." rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Готовы ли вы помогать в организации кружка?</label>
+                <select id="help_willing" name="help_willing" required>
+                    <option value="" disabled selected>Выберите вариант</option>
+                    <option value="да">Да, с радостью</option>
+                    <option value="возможно">Возможно, иногда</option>
+                    <option value="нет">Нет, не готов</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Слайд 4: темы для будущих занятий -->
+        <div id="slide4" class="slide">
+            <p style="margin-bottom:15px; color:#555;">Какие темы вы хотели бы изучать на будущих занятиях?</p>
+            <div class="form-group" style="display:flex; gap:10px; flex-wrap:wrap;">
+                <label style="flex:1; display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" name="topics" value="программирование"> Программирование
+                </label>
+                <label style="flex:1; display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" name="topics" value="робототехника"> Робототехника
+                </label>
+                <label style="flex:1; display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" name="topics" value="дизайн"> Дизайн и графика
+                </label>
+                <label style="flex:1; display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" name="topics" value="научные эксперименты"> Научные эксперименты
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="other_topic">Или предложите свою тему:</label>
+                <input type="text" id="other_topic" name="other_topic" placeholder="Например, 3D-моделирование">
+            </div>
+        </div>
+
+        <!-- Слайд 5: финальный экран -->
+        <div id="slide5" class="slide">
+            <p style="text-align:center; color:#555; margin-bottom:20px;">
+                Спасибо за участие в опросе! Ваши ответы помогут сделать кружок лучше.
+            </p>
+            <button type="button" onclick="submitForm()">Отправить ответы</button>
+        </div>
+
+        <!-- Кнопки навигации -->
+        <div class="nav-buttons">
+            <button type="button" id="prevBtn" class="btn-prev" onclick="changeSlide(-1)">Назад</button>
+            <button type="button" id="nextBtn" onclick="changeSlide(1)">Далее</button>
+        </div>
+    </form>
+
+    <div id="message"></div>
+</div>
+
+<script>
+    const totalSlides = 5;
+    let currentSlide = 1;
+    const form = document.getElementById('contactForm');
+    const messageDiv = document.getElementById('message');
+    const currentStepSpan = document.getElementById('currentStep');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateUI() {
+        document.querySelectorAll('.slide').forEach(slide => slide.classList.remove('active'));
+        document.getElementById(`slide${currentSlide}`).classList.add('active');
+        
+        currentStepSpan.textContent = currentSlide;
+
+        prevBtn.style.display = currentSlide === 1 ? 'none' : 'flex';
+        nextBtn.textContent = currentSlide === totalSlides ? 'Отправить' : 'Далее';
+    }
+
+    function changeSlide(direction) {
+        const activeSlide = document.getElementById(`slide${currentSlide}`);
+        
+        // Если идём вперёд, проверяем обязательные поля на текущем слайде
+        if (direction === 1 && currentSlide < totalSlides) {
+            const inputs = activeSlide.querySelectorAll('input[required], select[required]');
+            for (let input of inputs) {
+                if (!input.value.trim()) {
+                    input.style.borderColor = '#ff4d4d';
+                    alert('Пожалуйста, заполните все обязательные поля.');
+                    return;
+                } else {
+                    input.style.borderColor = '#ccc';
+                }
+            }
+        }
+
+        currentSlide += direction;
+
+        if (currentSlide > totalSlides) {
+            currentSlide = totalSlides;
+        } else if (currentSlide < 1) {
+            currentSlide = 1;
+        }
+
+        updateUI();
+    }
+
+    function submitForm() {
+        // Здесь можно добавить отправку на сервер или сохранение в localStorage
+        const fullname = document.getElementById('fullname').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const satisfaction = document.getElementById('satisfaction').value;
+        const bestPart = document.getElementById('best_part').value.trim() || 'не указано';
+        const improvements = document.getElementById('improvements').value.trim() || 'нет предложений';
+        const helpWilling = document.getElementById('help_willing').value;
+        const otherTopic = document.getElementById('other_topic').value.trim() || 'не указано';
+
+        // Сбор выбранных тем
+        const topics = [];
+        document.querySelectorAll('input[name="topics"]:checked').forEach(cb => topics.push(cb.value));
+        const topicsText = topics.length ? topics.join(', ') : 'ничего не выбрано';
+
+        messageDiv.style.display = 'block';
+        messageDiv.innerHTML = `
+            <strong>Спасибо, ${fullname}!</strong><br>
+            Ваш возраст: ${age} лет<br>
+            Удовлетворённость: ${satisfaction}<br>
+            Что нравится: ${bestPart}<br>
+            Предложения по улучшению: ${improvements}<br>
+            Готовность помогать: ${helpWilling}<br>
+            Выбранные темы: ${topicsText}<br>
+            Другая тема: ${otherTopic}
+        `;
+        
+        form.style.display = 'none';
+    }
+
+    updateUI();
+</script>
+
+</body>
+</html>
